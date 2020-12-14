@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_04fz0fa" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.2.0">
+  <bpmn:process id="ProcessOrder" name="Process Order" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Order Recived">
+      <bpmn:outgoing>SequenceFlow_1vnwn5v</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1vnwn5v" sourceRef="StartEvent_1" targetRef="ExclusiveGateway_1ke18rl" />
+    <bpmn:sequenceFlow id="SequenceFlow_11iviyz" name="Cake Ordered" sourceRef="ExclusiveGateway_1ke18rl" targetRef="Task_01xtn8k">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{message.contains('cake')}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1s1ulcw" name="Coffee Ordered" sourceRef="ExclusiveGateway_1ke18rl" targetRef="Task_0dufn4e">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{message.contains('coffee')}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:inclusiveGateway id="ExclusiveGateway_1ke18rl" default="SequenceFlow_0s4a5m7">
+      <bpmn:incoming>SequenceFlow_1vnwn5v</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_11iviyz</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1s1ulcw</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0s4a5m7</bpmn:outgoing>
+    </bpmn:inclusiveGateway>
+    <bpmn:endEvent id="EndEvent_0qtfc9k" name="Cake Delivered">
+      <bpmn:incoming>SequenceFlow_0iknyyp</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0iknyyp" sourceRef="Task_01xtn8k" targetRef="EndEvent_0qtfc9k" />
+    <bpmn:endEvent id="EndEvent_1hshkz5" name="Coffee Delivered">
+      <bpmn:incoming>SequenceFlow_19gzhs3</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_19gzhs3" sourceRef="Task_0dufn4e" targetRef="EndEvent_1hshkz5" />
+    <bpmn:serviceTask id="Task_01xtn8k" name="Get Cake" camunda:delegateExpression="#{sortCakeOrder}">
+      <bpmn:incoming>SequenceFlow_11iviyz</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0iknyyp</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_0dufn4e" name="Get Coffee" camunda:delegateExpression="#{sortCoffeeOrder}">
+      <bpmn:incoming>SequenceFlow_1s1ulcw</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_19gzhs3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_1h5wbd9">
+      <bpmn:incoming>SequenceFlow_0s4a5m7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0s4a5m7" sourceRef="ExclusiveGateway_1ke18rl" targetRef="EndEvent_1h5wbd9" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ProcessOrder">
+      <bpmndi:BPMNEdge id="SequenceFlow_0s4a5m7_di" bpmnElement="SequenceFlow_0s4a5m7">
+        <di:waypoint x="290" y="182" />
+        <di:waypoint x="290" y="100" />
+        <di:waypoint x="452" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_19gzhs3_di" bpmnElement="SequenceFlow_19gzhs3">
+        <di:waypoint x="530" y="320" />
+        <di:waypoint x="592" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0iknyyp_di" bpmnElement="SequenceFlow_0iknyyp">
+        <di:waypoint x="530" y="207" />
+        <di:waypoint x="592" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1s1ulcw_di" bpmnElement="SequenceFlow_1s1ulcw">
+        <di:waypoint x="290" y="232" />
+        <di:waypoint x="290" y="320" />
+        <di:waypoint x="430" y="320" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="322" y="293" width="76" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_11iviyz_di" bpmnElement="SequenceFlow_11iviyz">
+        <di:waypoint x="315" y="207" />
+        <di:waypoint x="430" y="207" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="338" y="173" width="70" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1vnwn5v_di" bpmnElement="SequenceFlow_1vnwn5v">
+        <di:waypoint x="215" y="207" />
+        <di:waypoint x="265" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="189" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="161" y="232" width="72" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="InclusiveGateway_1bm79e6_di" bpmnElement="ExclusiveGateway_1ke18rl">
+        <dc:Bounds x="265" y="182" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0qtfc9k_di" bpmnElement="EndEvent_0qtfc9k">
+        <dc:Bounds x="592" y="189" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="572" y="232" width="76" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1hshkz5_di" bpmnElement="EndEvent_1hshkz5">
+        <dc:Bounds x="592" y="302" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="569" y="345" width="82" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1afx8br_di" bpmnElement="Task_01xtn8k">
+        <dc:Bounds x="430" y="167" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1icd0pq_di" bpmnElement="Task_0dufn4e">
+        <dc:Bounds x="430" y="280" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1h5wbd9_di" bpmnElement="EndEvent_1h5wbd9">
+        <dc:Bounds x="452" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

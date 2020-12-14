@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0ufpjd4" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.2.0">
+  <bpmn:process id="conrollerProcess" name="Controller Process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Order requested">
+      <bpmn:outgoing>Flow_0v7l16o</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1wfow6c" messageRef="Message_18mnb3w" />
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0v7l16o" sourceRef="StartEvent_1" targetRef="Activity_1od03so" />
+    <bpmn:sequenceFlow id="Flow_0mn3mgq" sourceRef="Activity_1od03so" targetRef="Activity_0kti9sm" />
+    <bpmn:sequenceFlow id="Flow_0dbf580" sourceRef="Activity_0kti9sm" targetRef="Activity_0cfxhmx" />
+    <bpmn:endEvent id="Event_166jgm0" name="Order complete">
+      <bpmn:incoming>Flow_0fybozi</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sendTask id="Activity_1od03so" name="Cashier service" camunda:asyncBefore="true" camunda:delegateExpression="${collectPayment}">
+      <bpmn:incoming>Flow_0v7l16o</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mn3mgq</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sendTask id="Activity_0kti9sm" name="Sort order service" camunda:asyncBefore="true" camunda:delegateExpression="${sendOrderDelegate}">
+      <bpmn:incoming>Flow_0mn3mgq</bpmn:incoming>
+      <bpmn:outgoing>Flow_0dbf580</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:receiveTask id="Activity_0cfxhmx" name="Order complete" messageRef="Message_1nqdaus">
+      <bpmn:incoming>Flow_0dbf580</bpmn:incoming>
+      <bpmn:outgoing>Flow_0fybozi</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:sequenceFlow id="Flow_0fybozi" sourceRef="Activity_0cfxhmx" targetRef="Event_166jgm0" />
+  </bpmn:process>
+  <bpmn:message id="Message_18mnb3w" name="orderRequested" />
+  <bpmn:message id="Message_1nqdaus" name="orderComplete" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="conrollerProcess">
+      <bpmndi:BPMNEdge id="Flow_0v7l16o_di" bpmnElement="Flow_0v7l16o">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mn3mgq_di" bpmnElement="Flow_0mn3mgq">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="430" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0dbf580_di" bpmnElement="Flow_0dbf580">
+        <di:waypoint x="530" y="117" />
+        <di:waypoint x="590" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fybozi_di" bpmnElement="Flow_0fybozi">
+        <di:waypoint x="690" y="117" />
+        <di:waypoint x="762" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_08x0i5q_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="157" y="142" width="81" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0jgn9kq_di" bpmnElement="Activity_1od03so">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_12nzr6k_di" bpmnElement="Activity_0kti9sm">
+        <dc:Bounds x="430" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ia9xcg_di" bpmnElement="Activity_0cfxhmx">
+        <dc:Bounds x="590" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_166jgm0_di" bpmnElement="Event_166jgm0">
+        <dc:Bounds x="762" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="742" y="142" width="76" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
