@@ -9,7 +9,7 @@ $(document)
   });
 
 function connect() {
-    var socket = new SockJS('/twitter-example');
+    var socket = new SockJS('/architect-example');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
 

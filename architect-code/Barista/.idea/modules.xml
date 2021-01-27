@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Barista.iml" filepath="$PROJECT_DIR$/Barista.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Cashier/Cashier.iml" filepath="$PROJECT_DIR$/../Cashier/Cashier.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../SortOrder-Sync/OrderSorterSync.iml" filepath="$PROJECT_DIR$/../SortOrder-Sync/OrderSorterSync.iml" />
+    </modules>
+  </component>
+</project>

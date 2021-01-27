@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1rfrc4v" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.2.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1rfrc4v" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
   <bpmn:process id="baristaProcess" name="Barista Process" isExecutable="true">
     <bpmn:endEvent id="Event_1vvefpg" name="Coffee Delivered">
       <bpmn:incoming>Flow_0uobbvz</bpmn:incoming>
@@ -11,11 +11,11 @@
     <bpmn:sequenceFlow id="Flow_0uobbvz" sourceRef="Activity_0pmtlm8" targetRef="Event_1vvefpg" />
     <bpmn:sequenceFlow id="Flow_1pvqqzr" sourceRef="Event_1ogtiw7" targetRef="Activity_1xpoypj" />
     <bpmn:sequenceFlow id="Flow_19d7wcj" sourceRef="Activity_1xpoypj" targetRef="Activity_0pmtlm8" />
-    <bpmn:serviceTask id="Activity_1xpoypj" name="Prepare coffee" camunda:delegateExpression="#{prepareCoffee}">
+    <bpmn:serviceTask id="Activity_1xpoypj" name="Prepare coffee" camunda:asyncBefore="true" camunda:delegateExpression="#{prepareCoffee}">
       <bpmn:incoming>Flow_1pvqqzr</bpmn:incoming>
       <bpmn:outgoing>Flow_19d7wcj</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sendTask id="Activity_0pmtlm8" name="Deliver Coffee" camunda:delegateExpression="#{baristaDelegate}">
+    <bpmn:sendTask id="Activity_0pmtlm8" name="Deliver Coffee" camunda:asyncBefore="true" camunda:delegateExpression="#{baristaDelegate}">
       <bpmn:incoming>Flow_19d7wcj</bpmn:incoming>
       <bpmn:outgoing>Flow_0uobbvz</bpmn:outgoing>
     </bpmn:sendTask>
